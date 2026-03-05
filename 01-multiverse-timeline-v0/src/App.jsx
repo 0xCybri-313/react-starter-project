@@ -8,7 +8,7 @@ function App() {
           <img
             src="../public/marvel-logo.png"
             className="logo"
-            alt="Vite logo"
+            alt="Marvel logo"
           />
         </a>
       </div>
