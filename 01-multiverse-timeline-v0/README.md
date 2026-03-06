@@ -1,16 +1,31 @@
-# React + Vite
+# 🛡️ Project 01: The Multiverse Timeline Index
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Clearance Level:** 7
+**Status:** Phase 1 (Active Development)
 
-Currently, two official plugins are available:
+Welcome to the mainframe. This project is an interactive database built with React to track, map, and explain the massive Marvel Multiverse. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Right now, the exact final form of this database is classified (even to me). But the ultimate goal is to build something huge, exciting, and highly interactive.
 
-## React Compiler
+## 🎯 Current Mission Directives
+As of right now, this interface is being designed to handle three main tasks:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. **The Ultimate Watch Order:** A clean, easy-to-follow guide through the correct timeline of events, so no agent gets lost in the multiverse.
+2. **Timeline Mapping:** Tracking how different events, movies, and shows connect across time and space.
+3. **Real-World Connections:** Breaking down the complex sci-fi concepts seen on screen and explaining how they connect to real-life science, physics, and historical events.
 
-## Expanding the ESLint configuration
+## 🚀 Future Upgrades (Classified)
+This project is built to scale. As the timeline grows, so will this interface. Expect major visual updates, new data models, and heavier features as the mission continues. 
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 💻 The Tech Stack
+* **Framework:** React.js
+* **Build Tool:** Vite (for high-speed rendering)
+* **Design:** Custom UI built for a classified, tactical feel
+
+## ⚙️ How to Boot the Mainframe
+If you have clearance to run this project on your local machine, follow these steps:
+
+1. Open your terminal.
+2. Install the necessary system dependencies:
+   ```bash
+   npm install
