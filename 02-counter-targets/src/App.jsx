@@ -7,14 +7,17 @@ function App() {
   let [counter, setCounter] = useState(0);
 
   const takeIt = () => {
-    counter++;
-    console.log(counter);
-    setCounter(counter);
+    if (counter < 20) {
+      counter++;
+      setCounter(counter);
+    }
   };
 
   const rejectIt = () => {
-    counter--;
-    setCounter(counter);
+    if (counter > 0) {
+      counter--;
+      setCounter(counter);
+    }
   };
 
   return (
