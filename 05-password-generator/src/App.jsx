@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 
 import "./App.css";
 
@@ -8,6 +8,9 @@ function App() {
   const [charState, setCharState] = useState(false);
   const [password, setPassword] = useState("");
 
+  // useRef Hooks
+  const passwordRef = useRef(null);
+
   const passGen = useCallback(() => {
     let pass = "";
     let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -15,14 +18,23 @@ function App() {
     if (numberState) str += "0123456789";
     if (charState) str += "`!@#$%^&*(){}[]+-=";
 
-    for (let i = 1; i < length.length; i++) {
+    for (let i = 1; i <= length; i++) {
       let char = Math.floor(Math.random() * str.length + 1);
 
-      pass = str.charAt(char);
+      pass += str.charAt(char);
     }
 
     setPassword(pass);
   }, [length, numberState, charState, setPassword]);
+
+  const copyPass = useCallback(() => {
+    passwordRef.current?.select();
+    window.navigator.clipboard.writeText(password);
+  }, [password]);
+
+  useEffect(() => {
+    passGen();
+  }, [length, numberState, charState, passGen]);
 
   return (
     <>
@@ -38,8 +50,12 @@ function App() {
               className="w-72 rounded-l-2xl bg-white px-3 py-2 text-black outline-none"
               placeholder="Password"
               readOnly
+              ref={passwordRef}
             />
-            <button className="shrink-0 rounded-r-2xl bg-blue-700 px-3 py-2 font-bold text-white outline-none">
+            <button
+              onClick={copyPass}
+              className="shrink-0 rounded-r-2xl bg-blue-700 px-3 py-2 font-bold text-white outline-none"
+            >
               Copy
             </button>
           </div>
