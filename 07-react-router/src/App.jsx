@@ -1,13 +1,16 @@
 import { useState } from "react";
+import Footer from "./components/Footer/Footer";
+import Header from "./components/Header/Header";
+import { Outlet } from "react-router";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <>
-      <div className="flex h-screen w-screen items-center justify-center bg-gray-700">
-        <h1 className="text-9xl font-bold text-white">React Router</h1>
-      </div>
+      <Header />
+      <Outlet />
+      <Footer />
     </>
   );
 }
