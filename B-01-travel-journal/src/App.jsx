@@ -4,14 +4,13 @@ import img from "./assets/location-image-v1.png";
 import data from "./database/data";
 
 function App() {
-  console.log(data);
-
   return (
     <>
       <Header />
       {data.map((info) => {
         return (
           <Entry
+            key={info.id}
             img={info.img}
             title={info.title}
             country={info.country}
