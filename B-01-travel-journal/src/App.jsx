@@ -8,7 +8,7 @@ function App() {
     <>
       <Header />
       {data.map((info) => {
-        return <Entry key={info.id} data={info} />;
+        return <Entry key={info.id} {...info} />;
       })}
 
       {/* <Entry

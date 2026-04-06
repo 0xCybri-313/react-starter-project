@@ -6,8 +6,8 @@ function Entry(props) {
       <div className="h-full w-40 shrink-0">
         <img
           className="h-full w-full shrink-0 rounded-md object-cover"
-          src={props.data.img.src}
-          alt={props.data.img.alt}
+          src={props.img.src}
+          alt={props.img.alt}
         />
       </div>
       <div className="flex flex-col justify-between p-8">
@@ -29,21 +29,21 @@ function Entry(props) {
                 />
               </svg>
               <span className="font-inter text-base leading-1 font-normal tracking-widest">
-                {props.data.country.toUpperCase()}
+                {props.country.toUpperCase()}
               </span>
             </span>
             <a
               className="text-sm text-gray-500 underline"
-              href={props.data.googleMapsLink}
+              href={props.googleMapsLink}
             >
               View on Google Maps
             </a>
           </p>
-          <h2 className="font-inter text-2xl font-bold">{props.data.title}</h2>
+          <h2 className="font-inter text-2xl font-bold">{props.title}</h2>
         </div>
         <div className="flex flex-col justify-between gap-2">
-          <p className="font-inter font-bold">{props.data.dates}</p>
-          <p className="line-clamp-3 text-xs font-normal">{props.data.text}</p>
+          <p className="font-inter font-bold">{props.dates}</p>
+          <p className="line-clamp-3 text-xs font-normal">{props.text}</p>
         </div>
       </div>
     </article>
