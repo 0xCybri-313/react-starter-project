@@ -4,8 +4,10 @@ import Main from "./components/Main";
 function App() {
   return (
     <>
-      <Header />
-      <Main />
+      <div className="overflow-x-hidden">
+        <Header />
+        <Main />
+      </div>
     </>
   );
 }
