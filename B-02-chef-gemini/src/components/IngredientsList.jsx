@@ -1,12 +1,16 @@
 import React from "react";
 
 function IngredientsList(props) {
+  const ingredientsListItems = props.ingredients.map((ingredient) => (
+    <li key={ingredient}>{ingredient}</li>
+  ));
+
   return (
     <section className="w-xl">
       <div className="m-4 flex flex-col justify-center gap-4">
         <h2 className="text-xl font-bold">Ingredients on hand:</h2>
         <ul className="list-inside list-disc space-y-2 pl-4">
-          {props.ingredientsListItems}
+          {ingredientsListItems}
         </ul>
       </div>
 
@@ -21,7 +25,7 @@ function IngredientsList(props) {
             </p>
           </div>
           <button
-            onClick={() => props.setRecipeShown(true)}
+            onClick={props.getRecipe}
             className="rounded-md bg-[#D17557] px-4 py-2 font-semibold text-white"
           >
             Get a recipe

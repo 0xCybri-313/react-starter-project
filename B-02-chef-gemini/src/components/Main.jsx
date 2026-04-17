@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import IngredientsList from "./IngredientsList";
 import ClaudeRecipe from "./ClaudeRecipe";
+import { getRecipeFromMistral } from "../../ai";
 
 function Main() {
   const [ingredients, setIngredients] = useState([
@@ -10,33 +11,12 @@ function Main() {
     "tomato paste",
   ]);
 
-  /**
-   * Challenge: clean up our code!
-   * Let's make a couple new components to make things a
-   * little cleaner. (Notice: I'm not suggesting what we
-   * have now is bad or wrong. I'm mostly finding an excuse
-   * to get in some hands-on practice 🙂)
-   *
-   * 1. Move the entire recipe <section> into its own
-   *    ClaudeRecipe component
-   * 2. Move the list of ingredients <section> into its
-   *    own IngredientsList component.
-   *
-   * While you're considering how to structure things, consider
-   * where state is, think about if it makes sense or not to
-   * move it somewhere else, how you'll communicate between
-   * the parent/child components, etc.
-   *
-   * The app should function as it currently does when you're
-   * done, so there will likely be some extra work to be done
-   * beyond what I've listed above.
-   */
-
   const [recipeShown, setRecipeShown] = useState(false);
 
-  const ingredientsListItems = ingredients.map((ingredient) => (
-    <li key={ingredient}>{ingredient}</li>
-  ));
+  async function getRecipe() {
+    const recipeMarkdown = await getRecipeFromMistral(ingredients);
+    console.log(recipeMarkdown);
+  }
 
   function handleSubmit(event) {
     const newIngredient = event.get("ingredient");
@@ -67,11 +47,7 @@ function Main() {
       {/* Only render when there is at least one ingredient */}
 
       {ingredients.length > 0 && (
-        <IngredientsList
-          ingredientsListItems={ingredientsListItems}
-          ingredients={ingredients}
-          setRecipeShown={setRecipeShown}
-        />
+        <IngredientsList ingredients={ingredients} getRecipe={getRecipe} />
       )}
 
       {/* get recipe from the chef and display */}
