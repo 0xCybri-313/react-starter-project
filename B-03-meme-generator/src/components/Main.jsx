@@ -13,18 +13,10 @@ function Main() {
     imageUrl: "http://i.imgflip.com/1bij.jpg",
   });
 
-  /**
-   * Challenge: update the topText value in the meme state
-   * object every time the topText input box is changed
-   *
-   * Note: don't worry about bottomText at this point.
-   */
-
   function handleClicked(event) {
-    const { value } = event.currentTarget;
-    console.log(value);
+    const { value, name } = event.currentTarget;
 
-    setMemeData((prev) => ({ ...prev, topText: value }));
+    setMemeData((prev) => ({ ...prev, [name]: value }));
   }
 
   return (
@@ -39,6 +31,7 @@ function Main() {
               placeholder="One does not simply"
               name="topText"
               onChange={handleClicked}
+              value={memeData.topText}
             />
           </label>
 
@@ -49,6 +42,8 @@ function Main() {
               type="text"
               placeholder="Walk into Mordor"
               name="bottomText"
+              onChange={handleClicked}
+              value={memeData.bottomText}
             />
           </label>
         </div>
