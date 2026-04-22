@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function Main() {
   /**
@@ -13,10 +13,26 @@ function Main() {
     imageUrl: "http://i.imgflip.com/1bij.jpg",
   });
 
+  const [allMemes, setAllMemes] = useState([]);
+
+  useEffect(() => {
+    fetch("https://api.imgflip.com/get_memes")
+      .then((res) => res.json())
+      .then((data) => setAllMemes(data.data.memes));
+  }, []);
+
   function handleClicked(event) {
     const { value, name } = event.currentTarget;
 
     setMemeData((prev) => ({ ...prev, [name]: value }));
+  }
+
+  function getRandomMeme() {
+    const randomNum = Math.floor(Math.random() * allMemes.length);
+
+    const newMeme = allMemes[randomNum];
+
+    setMemeData((prev) => ({ ...prev, imageUrl: newMeme.url }));
   }
 
   return (
@@ -47,16 +63,19 @@ function Main() {
             />
           </label>
         </div>
-        <button className="h-10 w-full rounded-md bg-linear-to-r from-[#672280] to-[#A626D3]">
+        <button
+          onClick={getRandomMeme}
+          className="h-10 w-full rounded-md bg-linear-to-r from-[#672280] to-[#A626D3]"
+        >
           Get a new meme image 🖼
         </button>
       </div>
       <div className="relative">
         <img src={memeData.imageUrl} />
-        <span className="absolute top-4 right-1/4 text-3xl font-bold text-white text-shadow-black">
+        <span className="absolute top-4 right-1/4 text-3xl font-bold text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] text-shadow-black">
           {memeData.topText}
         </span>
-        <span className="absolute right-1/4 bottom-4 text-3xl font-bold text-white text-shadow-black">
+        <span className="absolute right-1/4 bottom-4 text-3xl font-bold text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] text-shadow-black">
           {memeData.bottomText}
         </span>
       </div>
