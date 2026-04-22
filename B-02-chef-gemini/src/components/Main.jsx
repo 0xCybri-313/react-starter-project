@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import IngredientsList from "./IngredientsList";
 import ClaudeRecipe from "./ClaudeRecipe";
 import { getRecipeFromMistral } from "../../ai";
+import { useRef } from "react";
 
 function Main() {
   const [ingredients, setIngredients] = useState([
@@ -12,6 +13,14 @@ function Main() {
   ]);
 
   const [recipeShown, setRecipeShown] = useState(false);
+
+  const recipeSection = useRef(null);
+
+  React.useEffect(() => {
+    if (recipeShown && recipeSection.current !== null) {
+      recipeSection.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [recipeShown]);
 
   async function getRecipe() {
     const recipeMarkdown = await getRecipeFromMistral(ingredients);
@@ -47,7 +56,12 @@ function Main() {
       {/* Only render when there is at least one ingredient */}
 
       {ingredients.length > 0 && (
-        <IngredientsList ingredients={ingredients} getRecipe={getRecipe} />
+        <IngredientsList
+          ref={recipeSection}
+          ingredients={ingredients}
+          getRecipe={getRecipe}
+          setRecipeShown={setRecipeShown}
+        />
       )}
 
       {/* get recipe from the chef and display */}

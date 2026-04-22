@@ -18,14 +18,14 @@ function IngredientsList(props) {
 
       {props.ingredients.length > 3 && (
         <div className="get-recipe-container flex h-32 w-xl items-center justify-evenly bg-[#F0EFEB]">
-          <div className="flex flex-col justify-center gap-1">
+          <div ref={props.ref} className="flex flex-col justify-center gap-1">
             <h3 className="font-semibold">Ready for a recipe?</h3>
             <p className="text-gray-500">
               Generate a recipe from your list of ingredients.
             </p>
           </div>
           <button
-            onClick={props.getRecipe}
+            onClick={() => props.setRecipeShown((prev) => !prev)}
             className="rounded-md bg-[#D17557] px-4 py-2 font-semibold text-white"
           >
             Get a recipe

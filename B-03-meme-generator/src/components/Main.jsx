@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 function Main() {
-  /**
-   * Challenge: move the hardcoded meme info into React
-   * state. Use an object with `topText`, `bottomText`,
-   * and `imageUrl` properties, and set the initial values to
-   * the ones hardcoded below.
-   */
   const [memeData, setMemeData] = useState({
     topText: "One does not simply",
     bottomText: " Walk into Mordor",

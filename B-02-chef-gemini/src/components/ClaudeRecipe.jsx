@@ -2,9 +2,14 @@ import React from "react";
 
 function ClaudeRecipe() {
   return (
-    <section>
-      <h2>Chef Claude Recommends:</h2>
-      <article className="suggested-recipe-container" aria-live="polite">
+    <section className="w-full">
+      <h2 className="m-4 mx-auto text-center text-3xl font-bold">
+        Chef Claude Recommends:
+      </h2>
+      <article
+        className="suggested-recipe-container mx-auto w-3/5"
+        aria-live="polite"
+      >
         <p>
           Based on the ingredients you have available, I would recommend making
           a simple a delicious <strong>Beef Bolognese Pasta</strong>. Here is
