@@ -7,8 +7,6 @@ function App() {
   const [allValues, setAllValues] = useState(() => generateAllNewDice());
   const newGameRef = useRef(null);
 
-  console.log(newGameRef);
-
   let gameWon = false;
 
   if (
