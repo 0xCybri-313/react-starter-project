@@ -29,7 +29,7 @@ function App() {
     for (let i = 0; i < 10; i++) {
       const rand = Math.ceil(Math.random() * 6);
 
-      const randObj = { value: 5, isHeld: false, id: nanoid() };
+      const randObj = { value: rand, isHeld: false, id: nanoid() };
       newDice.push(randObj);
     }
     return newDice;
