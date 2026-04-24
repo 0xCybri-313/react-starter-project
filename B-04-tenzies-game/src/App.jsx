@@ -1,19 +1,33 @@
 import Die from "./components/Die";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { nanoid } from "nanoid";
 import Confetti from "./components/Confetti";
 
 function App() {
   const [allValues, setAllValues] = useState(() => generateAllNewDice());
+  const newGameRef = useRef(null);
 
-  let gameWon = false;
+  console.log(newGameRef);
 
   /**
-   * Challenge part 2:
-   * 1. Create a new `gameWon` variable.
-   * 2. If `gameWon` is true, change the button text to
-   *    "New Game" instead of "Roll"
+   * Challenge:
+   * Make it so when the game is over, the "New Game" button
+   * automatically receives keyboard focus so keyboard users
+   * can easily trigger that button without having to tab
+   * through all the dice first.
+   *
+   * Hints:
+   * 1. Focusing a DOM element with the DOMNode.focus() method
+   *    requires accessing the native DOM node. What tool have
+   *    we learned about that allows us to do that?
+   *
+   * 2. Automatically calling the .focus() on a DOM element when
+   *    the game is won requires us to synchronize the local
+   *    `gameWon` variable with an external system (the DOM). What
+   *    tool have we learned about that allows us to do that?
    */
+
+  let gameWon = false;
 
   if (
     allValues.every((die) => die.isHeld) &&
@@ -22,12 +36,18 @@ function App() {
     gameWon = true;
   }
 
+  useEffect(() => {
+    if (gameWon) {
+      newGameRef.current.focus();
+    }
+  }, [gameWon]);
+
   function generateAllNewDice() {
     const newDice = [];
     for (let i = 0; i < 10; i++) {
       const rand = Math.ceil(Math.random() * 6);
 
-      const randObj = { value: rand, isHeld: false, id: nanoid() };
+      const randObj = { value: 5, isHeld: false, id: nanoid() };
       newDice.push(randObj);
     }
     return newDice;
@@ -83,6 +103,7 @@ function App() {
             ))}
           </div>
           <button
+            ref={newGameRef}
             onClick={rollDice}
             className="h-10 w-32 cursor-pointer rounded-md bg-[#5035FF] pb-px text-xl font-bold text-white"
           >
