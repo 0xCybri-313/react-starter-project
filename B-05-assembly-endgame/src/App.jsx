@@ -1,23 +1,18 @@
 import { languages } from "./database/languages";
-
-/**
- * Goal: Build out the main parts of our app
- *
- * Challenge:
- * 1. Save a "currentWord" in state. Initialize as "react".
- * 2. Map over the letters of the word (you'll need to turn
- *    the string into an array of letters first) and display
- *    each one as a <span>. Capitalize the letters when
- *    displaying them.
- * 3. Style to look like the design. You can get the underline
- *    effect on the box using `border-bottom`.
- */
+import { useState } from "react";
 
 function App() {
   const [currentWord, setCurrentWord] = useState("react");
+
+  const wordChar = currentWord.split("");
+
+  const alphabet = "abcdefghijklmnopqrstuvwxyz";
+
   return (
     <>
-      <main className="flex h-screen w-screen flex-col items-center justify-center gap-8 bg-[#282726] text-2xl text-white">
+      <main className="flex h-screen w-screen flex-col items-center justify-center gap-8 bg-[#282726]">
+        {/* header */}
+
         <header className="flex h-36 w-sm flex-col items-center">
           <h1 className="text-xl font-medium text-[#F9F4DA]">
             Assembly: Endgame
@@ -26,11 +21,17 @@ function App() {
             Guess the word within 8 attempts to keep the programming world safe
             from Assembly!
           </p>
+
+          {/* message section */}
+
           <section className="mt-4 flex h-full w-full flex-col items-center justify-center rounded bg-[#10A95B] text-[#F9F4DA]">
             <h2 className="text-xl font-medium">You win!</h2>
             <p className="text-sm font-medium">Well done! 🎉</p>
           </section>
         </header>
+
+        {/* languages section */}
+
         <section className="flex w-xs flex-wrap items-center justify-center gap-1">
           {languages.map((lang) => (
             <div
@@ -42,6 +43,38 @@ function App() {
             </div>
           ))}
         </section>
+
+        {/* guessed word */}
+
+        <div className="flex w-xs flex-wrap items-center justify-center gap-1">
+          {wordChar.map((char, index) => (
+            <span
+              key={index}
+              className="flex size-10 items-center justify-center border-b-2 border-b-[#F9F4DA] bg-[#323232] text-xl font-bold text-[#F9F4DA]"
+            >
+              {char.toUpperCase()}
+            </span>
+          ))}
+        </div>
+
+        {/* keyboard section */}
+
+        <section className="flex w-md flex-wrap items-center justify-center gap-1">
+          {alphabet.split("").map((char) => (
+            <button
+              key={char}
+              className="size-10 rounded border border-[#D7D7D7] bg-[#FCBA29] text-base font-semibold"
+            >
+              {char.toUpperCase()}
+            </button>
+          ))}
+        </section>
+
+        {/* new game button */}
+
+        <button className="flex h-10 w-72 items-center justify-center rounded border border-[#D7D7D7] bg-[#11B5E5] text-base font-semibold">
+          New Game
+        </button>
       </main>
     </>
   );
