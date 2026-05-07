@@ -1,12 +1,37 @@
 import { languages } from "./database/languages";
 import { useState } from "react";
+import { clsx } from "clsx";
 
 function App() {
+  // State values
+
   const [currentWord, setCurrentWord] = useState("react");
+
+  const [userGuess, setUserGuess] = useState([]);
+
+  // Derived values
+
+  const wrongGuessCount = userGuess.filter(
+    (char) => !currentWord.includes(char),
+  ).length;
+
+  const isGameWon = currentWord
+    .split("")
+    .every((char) => userGuess.includes(char));
+  const isGameLost = wrongGuessCount >= languages.length - 1;
+  const isGameOver = isGameWon || isGameLost;
+
+  // Static values
 
   const wordChar = currentWord.split("");
 
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+  function addUserGuess(userChar) {
+    setUserGuess((prev) =>
+      prev.includes(userChar) ? prev : [userChar, ...prev],
+    );
+  }
 
   return (
     <>
@@ -24,22 +49,48 @@ function App() {
 
           {/* message section */}
 
-          <section className="mt-4 flex h-full w-full flex-col items-center justify-center rounded bg-[#10A95B] text-[#F9F4DA]">
-            <h2 className="text-xl font-medium">You win!</h2>
-            <p className="text-sm font-medium">Well done! 🎉</p>
+          <section
+            className={clsx(
+              "mt-4 flex h-full w-full flex-col items-center justify-center rounded bg-[#282726] text-[#F9F4DA]",
+              {
+                "bg-[#10A95B]!": isGameWon,
+                "bg-[#BA2A2A]!": isGameLost,
+              },
+            )}
+          >
+            {isGameOver ? (
+              isGameWon ? (
+                <>
+                  <h2 className="text-xl font-medium">You win!</h2>
+                  <p className="text-sm font-medium">Well done! 🎉</p>
+                </>
+              ) : (
+                <>
+                  <h2 className="text-xl font-medium">Game over!</h2>
+                  <p className="text-sm font-medium">
+                    You lose! Better start learning Assembly 😭
+                  </p>
+                </>
+              )
+            ) : null}
           </section>
         </header>
 
         {/* languages section */}
 
         <section className="flex w-xs flex-wrap items-center justify-center gap-1">
-          {languages.map((lang) => (
+          {languages.map((lang, index) => (
             <div
-              className="flex h-6 items-center justify-center rounded px-2 text-xs font-bold"
+              className="relative flex h-6 items-center justify-center rounded px-2 text-xs font-bold"
               style={{ background: lang.backgroundColor, color: lang.color }}
               key={lang.name}
             >
               {lang.name}
+              {wrongGuessCount > index && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/70 text-sm">
+                  💀
+                </div>
+              )}
             </div>
           ))}
         </section>
@@ -52,7 +103,7 @@ function App() {
               key={index}
               className="flex size-10 items-center justify-center border-b-2 border-b-[#F9F4DA] bg-[#323232] text-xl font-bold text-[#F9F4DA]"
             >
-              {char.toUpperCase()}
+              {userGuess.includes(char) ? char.toUpperCase() : ""}
             </span>
           ))}
         </div>
@@ -60,21 +111,38 @@ function App() {
         {/* keyboard section */}
 
         <section className="flex w-md flex-wrap items-center justify-center gap-1">
-          {alphabet.split("").map((char) => (
-            <button
-              key={char}
-              className="size-10 rounded border border-[#D7D7D7] bg-[#FCBA29] text-base font-semibold"
-            >
-              {char.toUpperCase()}
-            </button>
-          ))}
+          {alphabet.split("").map((char) => {
+            const isGuessed = userGuess.includes(char);
+            const isCorrect = isGuessed && currentWord.includes(char);
+            const isWrong = isGuessed && !currentWord.includes(char);
+
+            return (
+              <button
+                onClick={() => addUserGuess(char)}
+                key={char}
+                className={clsx(
+                  "size-10 rounded border border-[#D7D7D7] bg-[#FCBA29] text-base font-semibold",
+                  {
+                    "bg-[#10A95B]!": isCorrect,
+                    "bg-[#EC5D49]!": isWrong,
+                  },
+                )}
+              >
+                {char.toUpperCase()}
+              </button>
+            );
+          })}
         </section>
 
         {/* new game button */}
 
-        <button className="flex h-10 w-72 items-center justify-center rounded border border-[#D7D7D7] bg-[#11B5E5] text-base font-semibold">
-          New Game
-        </button>
+        {isGameOver ? (
+          <button className="flex h-10 w-72 items-center justify-center rounded border border-[#D7D7D7] bg-[#11B5E5] text-base font-semibold">
+            New Game
+          </button>
+        ) : (
+          <div className="h-10"></div>
+        )}
       </main>
     </>
   );
