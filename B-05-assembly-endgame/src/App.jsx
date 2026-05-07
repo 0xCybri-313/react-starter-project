@@ -1,6 +1,18 @@
 import { languages } from "./database/languages";
 import { useState } from "react";
 import { clsx } from "clsx";
+import { getFarewellText } from "./utils";
+
+/**
+ * Challenge: Bid farewell to each programming language
+ * as it gets erased from existance 👋😭
+ *
+ * Use the `getFarewellText` function from the new utils.js
+ * file to generate the text.
+ *
+ * Check hint.md if you're feeling stuck, but do your best
+ * to solve the challenge without the hint! 🕵️
+ */
 
 function App() {
   // State values
@@ -21,6 +33,10 @@ function App() {
   const isGameLost = wrongGuessCount >= languages.length - 1;
   const isGameOver = isGameWon || isGameLost;
 
+  const lastGuessedLetter = userGuess[userGuess.length - 1];
+  const isLastGuessIncorrect =
+    lastGuessedLetter && !currentWord.includes(lastGuessedLetter);
+
   // Static values
 
   const wordChar = currentWord.split("");
@@ -29,8 +45,42 @@ function App() {
 
   function addUserGuess(userChar) {
     setUserGuess((prev) =>
-      prev.includes(userChar) ? prev : [userChar, ...prev],
+      prev.includes(userChar) ? prev : [...prev, userChar],
     );
+  }
+
+  function renderGameStatus() {
+    if (!isGameOver && isLastGuessIncorrect) {
+      let farewell = "";
+      languages.map((lang, index) => {
+        if (wrongGuessCount > index) {
+          farewell = getFarewellText(lang.name);
+          console.log(farewell);
+        }
+      });
+
+      return <h2 className="text-xl font-medium">{farewell}</h2>;
+    }
+
+    if (isGameWon) {
+      return (
+        <>
+          <h2 className="text-xl font-medium">You win!</h2>
+          <p className="text-sm font-medium">Well done! 🎉</p>
+        </>
+      );
+    }
+
+    if (isGameLost) {
+      return (
+        <>
+          <h2 className="text-xl font-medium">Game over!</h2>
+          <p className="text-sm font-medium">
+            You lose! Better start learning Assembly 😭
+          </p>
+        </>
+      );
+    }
   }
 
   return (
@@ -55,24 +105,11 @@ function App() {
               {
                 "bg-[#10A95B]!": isGameWon,
                 "bg-[#BA2A2A]!": isGameLost,
+                "bg-[#7A5EA7]!": wrongGuessCount >= 1,
               },
             )}
           >
-            {isGameOver ? (
-              isGameWon ? (
-                <>
-                  <h2 className="text-xl font-medium">You win!</h2>
-                  <p className="text-sm font-medium">Well done! 🎉</p>
-                </>
-              ) : (
-                <>
-                  <h2 className="text-xl font-medium">Game over!</h2>
-                  <p className="text-sm font-medium">
-                    You lose! Better start learning Assembly 😭
-                  </p>
-                </>
-              )
-            ) : null}
+            {renderGameStatus()}
           </section>
         </header>
 
