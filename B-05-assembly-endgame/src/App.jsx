@@ -1,23 +1,14 @@
 import { languages } from "./database/languages";
 import { useState } from "react";
 import { clsx } from "clsx";
-import { getFarewellText } from "./utils";
-
-/**
- * Challenge: Bid farewell to each programming language
- * as it gets erased from existance 👋😭
- *
- * Use the `getFarewellText` function from the new utils.js
- * file to generate the text.
- *
- * Check hint.md if you're feeling stuck, but do your best
- * to solve the challenge without the hint! 🕵️
- */
+import { getFarewellText, getRandomWord } from "./utils";
+import Confetti from "./Confetti";
+Confetti;
 
 function App() {
   // State values
 
-  const [currentWord, setCurrentWord] = useState("react");
+  const [currentWord, setCurrentWord] = useState(() => getRandomWord());
 
   const [userGuess, setUserGuess] = useState([]);
 
@@ -83,8 +74,16 @@ function App() {
     }
   }
 
+  // reset game
+
+  function resetGame() {
+    setCurrentWord(getRandomWord);
+    setUserGuess([]);
+  }
+
   return (
     <>
+      {isGameWon && <Confetti recycle={false} numberOfPieces={1000} />}
       <main className="flex h-screen w-screen flex-col items-center justify-center gap-8 bg-[#282726]">
         {/* header */}
 
@@ -135,14 +134,23 @@ function App() {
         {/* guessed word */}
 
         <div className="flex w-xs flex-wrap items-center justify-center gap-1">
-          {wordChar.map((char, index) => (
-            <span
-              key={index}
-              className="flex size-10 items-center justify-center border-b-2 border-b-[#F9F4DA] bg-[#323232] text-xl font-bold text-[#F9F4DA]"
-            >
-              {userGuess.includes(char) ? char.toUpperCase() : ""}
-            </span>
-          ))}
+          {wordChar.map((char, index) => {
+            const shouldRevealLetter = isGameLost || userGuess.includes(char);
+            isGameLost && !userGuess.includes(char) && "missed-letter";
+            return (
+              <span
+                key={index}
+                className={clsx(
+                  "flex size-10 items-center justify-center border-b-2 border-b-[#F9F4DA] bg-[#323232] text-xl font-bold text-[#F9F4DA]",
+                  {
+                    "text-[#EC5D49]!": isGameLost && !userGuess.includes(char),
+                  },
+                )}
+              >
+                {shouldRevealLetter ? char.toUpperCase() : ""}
+              </span>
+            );
+          })}
         </div>
 
         {/* keyboard section */}
@@ -159,7 +167,7 @@ function App() {
                 key={char}
                 disabled={isGameOver}
                 className={clsx(
-                  "size-10 rounded border border-[#D7D7D7] bg-[#FCBA29] text-base font-semibold",
+                  "relative size-10 rounded border border-[#D7D7D7] bg-[#FCBA29] text-base font-semibold",
                   {
                     "bg-[#10A95B]!": isCorrect,
                     "bg-[#EC5D49]!": isWrong,
@@ -167,6 +175,9 @@ function App() {
                 )}
               >
                 {char.toUpperCase()}
+                {isGameOver && (
+                  <div className="absolute inset-0 bg-white/25"></div>
+                )}
               </button>
             );
           })}
@@ -175,7 +186,10 @@ function App() {
         {/* new game button */}
 
         {isGameOver ? (
-          <button className="flex h-10 w-72 items-center justify-center rounded border border-[#D7D7D7] bg-[#11B5E5] text-base font-semibold">
+          <button
+            onClick={resetGame}
+            className="flex h-10 w-72 items-center justify-center rounded border border-[#D7D7D7] bg-[#11B5E5] text-base font-semibold"
+          >
             New Game
           </button>
         ) : (
