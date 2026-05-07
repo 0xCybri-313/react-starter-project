@@ -157,6 +157,7 @@ function App() {
               <button
                 onClick={() => addUserGuess(char)}
                 key={char}
+                disabled={isGameOver}
                 className={clsx(
                   "size-10 rounded border border-[#D7D7D7] bg-[#FCBA29] text-base font-semibold",
                   {
